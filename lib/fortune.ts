@@ -452,8 +452,12 @@ export function generateDailyFortune(user: UserProfile, today: Date): DailyFortu
   const dayPillar = getDayPillar(today);
   const todayElement: OhaengElement = dayPillar.stemElement;
 
-  // 3. 행운 오행 = 오늘 오행이 생하는 것
-  const luckyElement: OhaengElement = GENERATES[todayElement];
+  // 3. 행운 오행 = 나의 오행을 생해주는 오행 (사람마다 다름)
+  // 수생목, 목생화, 화생토, 토생금, 금생수
+  const GENERATED_BY: Record<OhaengElement, OhaengElement> = {
+    '목': '수', '화': '목', '토': '화', '금': '토', '수': '금',
+  };
+  const luckyElement: OhaengElement = GENERATED_BY[personalElement];
 
   // 4. 결정론적 시드
   const seed = hashCode(user.birthDate + dateStr + user.id);
